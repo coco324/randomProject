@@ -19,14 +19,20 @@
   </div>
 
   <ul class="mt-6 space-y-2">
-    <li
-      *ngFor="let val of valeurs; let i = index"
-      class="flex justify-between items-center bg-gray-700 px-4 py-2 rounded"
-    >
-      <span>{{ val.name }}</span>
+  <li
+    *ngFor="let val of valeurs; let i = index"
+    class="flex justify-between items-center bg-gray-700 px-4 py-2 rounded"
+  >
+  <!-- Nom avec condition -->
+    <span [class.line-through]="!val.visible">
+      {{ val.name }}
+    </span>
+    <div class="flex space-x-2 ml-auto">
+      <button (click)="hideChoice(i)" class="text-red-400 hover:text-red-600">👁️</button>
       <button (click)="supprimer(i)" class="text-red-400 hover:text-red-600">✖</button>
-    </li>
-  </ul>
+    </div>
+  </li>
+</ul>
 </div>
 
 <!-- Roue avec bouton central -->
@@ -42,25 +48,23 @@
       [style.transformOrigin]="'350px 350px'"
       class="transition"
     >
-      <g *ngFor="let option of valeurs; let i = index">
-        <g *ngIf="option.visible">
-          <path
-            [attr.d]="getPath(i, valeurs.length)"
-            [attr.fill]="getColor(i)"
-            stroke="white"
-            stroke-width="2"
-          />
-          <text
-            [attr.transform]="getTextTransform(i, valeurs.length)"
-            text-anchor="middle"
-            alignment-baseline="middle"
-            font-size="16"
-            fill="white"
-            style="pointer-events: none;"
-          >
-            {{ option.name }}
-          </text>
-        </g>
+      <g *ngFor="let option of valeursVisibles; let i = index">
+        <path
+          [attr.d]="getPath(i, valeursVisibles.length)"
+          [attr.fill]="getColor(i)"
+          stroke="white"
+          stroke-width="2"
+        />
+        <text
+          [attr.transform]="getTextTransform(i, valeursVisibles.length)"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          font-size="16"
+          fill="white"
+          style="pointer-events: none;"
+        >
+          {{ option.name }}
+        </text>
       </g>
     </g>
 
@@ -83,22 +87,28 @@
     Spin
   </button>
 
-  <!-- Popup gagnant -->
-  <div
-    *ngIf="afficherPopup"
-    class="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
-  >
-    <div class="bg-gray-800 rounded-lg p-8 shadow-xl text-center max-w-sm ">
-      <h2 class="text-xl font-bold mb-4">🎉 Gagnant 🎉</h2>
-      <p class="text-lg text-indigo-600 font-semibold">{{ gagnant }}</p>
-      <div class="flex justify-center mt-6">
-        <button
-          class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600"
-          (click)="fermerPopup()"
-        >
-          Close
-        </button>
-      </div>
+ <!-- Popup gagnant -->
+<div
+  *ngIf="afficherPopup"
+  class="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+>
+  <div class="bg-gray-800 rounded-lg p-8 shadow-xl text-center max-w-sm ">
+    <h2 class="text-xl font-bold mb-4">🎉 Gagnant 🎉</h2>
+    <p class="text-lg text-indigo-600 font-semibold">{{ gagnant }}</p>
+    <div class="flex justify-center mt-6 space-x-4">
+      <button
+        class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600"
+        (click)="fermerPopup()"
+      >
+        Close
+      </button>
+      <button
+        class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600"
+        (click)="hideChoice(getIndexByName(gagnant!)); fermerPopup()"
+      >
+        Hide
+      </button>
     </div>
   </div>
 </div>
+

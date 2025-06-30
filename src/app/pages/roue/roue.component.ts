@@ -34,13 +34,23 @@ export class RoueComponent {
 
   hideChoice(index: number) {
     if (index >= 0) {
-    this.valeurs[index].visible = false;
-  }
+      if (this.valeurs[index].visible) {
+        this.valeurs[index].visible = false;
+      } else {
+        this.valeurs[index].visible = true;
+      }
+    }
   }
 
   getIndexByName(nom: string): number {
     return this.valeurs.findIndex(v => v.name === nom);
   }
+
+  // permet de ne pas afficher les valeurs masquées dans la roue
+  get valeursVisibles() {
+  return this.valeurs.filter(v => v.visible); 
+  }
+
 
 
   // calcule des valeur pour tracer les segments de la roue
@@ -89,7 +99,7 @@ rotation = 0;
 
 tourner() {
   const tour = 5; // nombre de tours complets
-  const total = this.valeurs.length;
+  const total = this.valeursVisibles.length;
   const angleParSegment = 360 / total;
   const random = Math.floor(Math.random() * 360);
 
@@ -103,7 +113,7 @@ tourner() {
 
 
   setTimeout(() => {
-    this.gagnant = this.valeurs[indexGagnant].name;
+    this.gagnant = this.valeursVisibles[indexGagnant].name;
     this.afficherPopup = true;
   }, 4000);
 }
