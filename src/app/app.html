@@ -1,0 +1,29 @@
+<header class="bg-gray-900 text-white px-6 py-4 shadow-md">
+  <nav class="container mx-auto flex items-center justify-between">
+    <div class="text-xl font-semibold">🎲 Mes Outils Aléatoires</div>
+    <ul class="flex space-x-6">
+      <li>
+        <a
+          routerLink="/roue"
+          routerLinkActive="text-indigo-400 border-b-2 border-indigo-400"
+          class="text-white pb-1 border-b-2 border-transparent hover:border-indigo-400 transition"
+        >
+          Roue
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/des"
+          routerLinkActive="text-indigo-400 border-b-2 border-indigo-400"
+          class="text-white pb-1 border-b-2 border-transparent hover:border-indigo-400 transition"
+        >
+          Dés
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<main class="min-h-screen bg-gray-800 text-white p-6">
+  <router-outlet></router-outlet>
+</main>
