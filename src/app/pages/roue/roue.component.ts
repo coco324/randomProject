@@ -55,6 +55,10 @@ export class RoueComponent {
 
   // calcule des valeur pour tracer les segments de la roue
   getPath(index: number, total: number): string {
+    if (total === 1) {
+    // Affiche un cercle entier
+    return 'M350,50 A300,300 0 1,1 349.9,50 Z';
+  }
     const angle = (2 * Math.PI) / total;
     const start = index * angle;
     const end = start + angle;
